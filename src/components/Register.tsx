@@ -29,7 +29,7 @@ const Register = ({
   });
 
   const onSubmit: SubmitHandler<IFormInputs> = async user => {
-    const res = await fetch("http://localhost:3001/register", {
+    const res = await fetch("http://cynicade.xyz/todo/api/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -46,7 +46,7 @@ const Register = ({
 
     if (data.message === "user registered successfully") {
       handleAuthChange();
-      return navigate("/main");
+      return navigate("/todo/main");
     }
   };
 

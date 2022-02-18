@@ -17,9 +17,9 @@ const Auth = ({ auth, handleAuthChange }: IProps) => {
 
   useEffect(() => {
     (async () => {
-      if (auth) return navigate("/main");
+      if (auth) return navigate("/todo/main");
 
-      const res = await fetch("http://localhost:3001/login", {
+      const res = await fetch("http://cynicade.xyz/todo/api/login", {
         credentials: "include",
       });
 
@@ -27,7 +27,7 @@ const Auth = ({ auth, handleAuthChange }: IProps) => {
 
       if (data.message === "logged in successfully") {
         handleAuthChange();
-        return navigate("/main");
+        return navigate("/todo/main");
       }
     })();
   }, [auth, navigate, handleAuthChange]);

@@ -16,11 +16,11 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           <Route
-            path="/"
+            path="/todo"
             element={<Auth auth={auth} handleAuthChange={handleAuthChange} />}
           />
           <Route
-            path="main"
+            path="/todo/main"
             element={<Main auth={auth} handleAuthChange={handleAuthChange} />}
           />
         </Routes>

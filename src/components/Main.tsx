@@ -22,7 +22,7 @@ const Main = ({ auth, handleAuthChange }: IProps) => {
   const navigate = useNavigate();
 
   const getTodos = async () => {
-    const res = await fetch("http://localhost:3001/todos", {
+    const res = await fetch("http://cynicade.xyz/todo/api/todos", {
       credentials: "include",
     });
 
@@ -31,14 +31,14 @@ const Main = ({ auth, handleAuthChange }: IProps) => {
   };
 
   useEffect(() => {
-    if (!auth) return navigate("/");
+    if (!auth) return navigate("/todo");
     getTodos();
   }, [auth, navigate]);
 
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
 
-    const res = await fetch("http://localhost:3001/new", {
+    const res = await fetch("http://cynicade.xyz/todo/api/new", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -62,7 +62,7 @@ const Main = ({ auth, handleAuthChange }: IProps) => {
   };
 
   const handleDelete = async (id: number) => {
-    const res = await fetch(`http://localhost:3001/todo/${id}`, {
+    const res = await fetch(`http://cynicade.xyz/todo/api/todo/${id}`, {
       method: "DELETE",
       credentials: "include",
     });
@@ -73,7 +73,7 @@ const Main = ({ auth, handleAuthChange }: IProps) => {
   };
 
   const handleUpdate = async (id: number, body: string, complete: boolean) => {
-    const res = await fetch(`http://localhost:3001/todo/${id}`, {
+    const res = await fetch(`http://cynicade.xyz/todo/api/todo/${id}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -91,14 +91,14 @@ const Main = ({ auth, handleAuthChange }: IProps) => {
   };
 
   const handleLogout = async () => {
-    const res = await fetch("http://localhost:3001/logout", {
+    const res = await fetch("http://cynicade.xyz/todo/api/logout", {
       credentials: "include",
     });
 
     const data = await res.json();
     console.log(data);
     handleAuthChange();
-    return navigate("/");
+    return navigate("/todo");
   };
 
   return (

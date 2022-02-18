@@ -28,7 +28,7 @@ const Login = ({
   });
 
   const onSubmit: SubmitHandler<IFormInputs> = async user => {
-    const res = await fetch("http://localhost:3001/login", {
+    const res = await fetch("http://cynicade.xyz/todo/api/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -44,7 +44,7 @@ const Login = ({
 
     if (data.message === "logged in successfully") {
       handleAuthChange();
-      return navigate("/main");
+      return navigate("/todo/main");
     }
   };
 
