@@ -20,6 +20,7 @@ const Auth = ({ auth, handleAuthChange }: IProps) => {
       if (auth) return navigate("/todo/main");
 
       const res = await fetch("http://cynicade.xyz/todo/api/login", {
+        // const res = await fetch("http://localhost:3001/todo/api/login", {
         credentials: "include",
       });
 

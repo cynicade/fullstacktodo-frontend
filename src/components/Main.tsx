@@ -1,5 +1,7 @@
 import { FormEvent, SyntheticEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import Todo from "./Todo";
 import "./styles/Main.scss";
 import { motion } from "framer-motion";
@@ -13,6 +15,8 @@ type TodoT = {
   body: string;
   complete: boolean;
   id: number;
+  created: string;
+  updated: string;
 };
 
 const Main = ({ auth, handleAuthChange }: IProps) => {
@@ -23,11 +27,22 @@ const Main = ({ auth, handleAuthChange }: IProps) => {
 
   const getTodos = async () => {
     const res = await fetch("http://cynicade.xyz/todo/api/todos", {
+      // const res = await fetch("http://localhost:3001/todo/api/todos", {
       credentials: "include",
     });
 
     const data = await res.json();
-    setTodos(data.todos);
+    let uncompletedTodos: Array<TodoT> = [];
+    let completedTodos: Array<TodoT> = [];
+    data.todos.forEach((t: TodoT) => {
+      t.complete ? completedTodos.push(t) : uncompletedTodos.push(t);
+    });
+    uncompletedTodos.sort((a: TodoT, b: TodoT) => {
+      const a_date: Date = new Date(a.created);
+      const b_date: Date = new Date(b.created);
+      return b_date.getTime() - a_date.getTime();
+    });
+    setTodos(uncompletedTodos.concat(completedTodos));
   };
 
   useEffect(() => {
@@ -37,8 +52,13 @@ const Main = ({ auth, handleAuthChange }: IProps) => {
 
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
+    if (tempBody === "") {
+      setAddingTodo(false);
+      return;
+    }
 
     const res = await fetch("http://cynicade.xyz/todo/api/new", {
+      // const res = await fetch("http://localhost:3001/todo/api/new", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -63,17 +83,20 @@ const Main = ({ auth, handleAuthChange }: IProps) => {
 
   const handleDelete = async (id: number) => {
     const res = await fetch(`http://cynicade.xyz/todo/api/todo/${id}`, {
+      // const res = await fetch(`http://localhost:3001/todo/api/todo/${id}`, {
       method: "DELETE",
       credentials: "include",
     });
 
     const data = await res.json();
     console.log(data);
-    getTodos();
+    setTodos(todos.filter((t: TodoT) => t.id !== id));
+    // getTodos();
   };
 
   const handleUpdate = async (id: number, body: string, complete: boolean) => {
     const res = await fetch(`http://cynicade.xyz/todo/api/todo/${id}`, {
+      // const res = await fetch(`http://localhost:3001/todo/api/todo/${id}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -85,6 +108,13 @@ const Main = ({ auth, handleAuthChange }: IProps) => {
       }),
     });
 
+    // const idx = todos.map((t: TodoT) => t.id).indexOf(id);
+    // const temp = todos;
+    // temp[idx].body = body;
+    // temp[idx].complete = complete;
+    // setTodos(temp);
+    // console.log(todos[idx]);
+
     const data = await res.json();
     console.log(data);
     getTodos();
@@ -92,6 +122,7 @@ const Main = ({ auth, handleAuthChange }: IProps) => {
 
   const handleLogout = async () => {
     const res = await fetch("http://cynicade.xyz/todo/api/logout", {
+      // const res = await fetch("http://localhost:3001/todo/api/logout", {
       credentials: "include",
     });
 
@@ -102,34 +133,53 @@ const Main = ({ auth, handleAuthChange }: IProps) => {
   };
 
   return (
-    <motion.div
-      initial={{ scale: 0 }}
-      animate={{ scale: 1 }}
-      exit={{ scale: 0 }}
-    >
-      <ul>
-        {todos.map(todo => (
-          <li key={todo.id}>
-            <Todo
-              body={todo.body}
-              complete={todo.complete}
-              id={todo.id}
-              handleDelete={handleDelete}
-              handleUpdate={handleUpdate}
-            />
-          </li>
-        ))}
-        {addingTodo && (
-          <li>
-            <form onSubmit={handleSubmit}>
-              <input value={tempBody} onChange={handleChange} autoFocus></input>
-            </form>
-          </li>
+    <>
+      <button className="Logout" onClick={handleLogout}>
+        Logout
+      </button>
+      <motion.div
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+        exit={{ scale: 0 }}
+        className="Main"
+      >
+        <ul>
+          {addingTodo && (
+            <motion.li initial={{ y: -100 }} animate={{ y: 0 }}>
+              <form onSubmit={handleSubmit}>
+                <input
+                  value={tempBody}
+                  onChange={handleChange}
+                  autoFocus
+                ></input>
+              </form>
+            </motion.li>
+          )}
+          {todos.map(todo => (
+            <motion.li key={todo.id} exit={{ scale: 0 }}>
+              <Todo
+                body={todo.body}
+                complete={todo.complete}
+                id={todo.id}
+                handleDelete={handleDelete}
+                handleUpdate={handleUpdate}
+              />
+            </motion.li>
+          ))}
+        </ul>
+        {!addingTodo && (
+          <motion.button
+            onClick={() => setAddingTodo(true)}
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            exit={{ scale: 0 }}
+            className="Main--AddButton"
+          >
+            <FontAwesomeIcon icon={faPlus} />
+          </motion.button>
         )}
-      </ul>
-      <button onClick={() => setAddingTodo(true)}>Add</button>
-      <button onClick={handleLogout}>Logout</button>
-    </motion.div>
+      </motion.div>
+    </>
   );
 };
 
