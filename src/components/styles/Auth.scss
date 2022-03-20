@@ -29,17 +29,17 @@
     font-family: "Roboto Condensed", sans-serif;
     font-size: 1.6em;
     text-transform: uppercase;
-    border-bottom: 1px solid $white;
+    border-bottom: 1px solid $purple;
     margin-bottom: 1em;
     padding-bottom: 0.1em;
-    color: $white;
+    color: $purple;
   }
 
   input {
     border: 0;
     font-family: "Roboto Mono", monospace;
     color: $black;
-    background-color: $background;
+    background-color: $gray;
     padding: 1em;
     margin: 3px 1em;
     text-align: center;
@@ -66,7 +66,7 @@
     border: 0;
     transition: 300ms;
     color: $gray;
-    background-color: $dark-gray;
+    background-color: $purple;
 
     &:hover {
       cursor: pointer;
@@ -85,7 +85,7 @@
 
 .Auth_signin {
   font-family: "Roboto Mono", monospace;
-  color: $gray;
+  color: $purple;
   padding: 0;
   margin: 0;
 }

@@ -27,6 +27,12 @@
   width: 50vw;
   min-width: 200px;
 
+  h1 {
+    color: $purple;
+    font-family: "Roboto Condensed", sans-serif;
+    font-size: 1.6em;
+  }
+
   ul {
     display: flex;
     flex-direction: column;
@@ -35,38 +41,38 @@
     width: 80%;
   }
 
-  form {
-    display: flex;
-    flex-direction: row;
-    background: $gray;
-    padding: 1em;
-    border-radius: 5px;
-    margin: 0.3em;
-    font-family: "Roboto";
-    font-size: 18px;
+  // form {
+  //   display: flex;
+  //   flex-direction: row;
+  //   background: $gray;
+  //   padding: 1em;
+  //   border-radius: 5px;
+  //   margin: 0.3em;
+  //   font-family: "Roboto";
+  //   font-size: 18px;
 
-    input {
-      padding: 0;
-      text-align: center;
-      margin: 0 auto;
-      background: inherit;
-      border: 0;
-      color: inherit;
-      font-size: 18px;
-      font-family: "Roboto";
+  //   input {
+  //     padding: 0;
+  //     text-align: center;
+  //     margin: 0 auto;
+  //     background: inherit;
+  //     border: 0;
+  //     color: inherit;
+  //     font-size: 18px;
+  //     font-family: "Roboto";
 
-      &:focus {
-        outline: 0;
-      }
-    }
-  }
+  //     &:focus {
+  //       outline: 0;
+  //     }
+  //   }
+  // }
 
   &--AddButton {
     background: $gray;
     border: 0;
-    border-radius: 5px;
+    border-radius: 50%;
     transition: 300ms;
-    padding: 0.5em 2em;
+    padding: 1em;
     margin-bottom: 1em;
 
     &:hover {

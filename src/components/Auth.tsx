@@ -7,8 +7,8 @@ import "./styles/Auth.scss";
 import { useNavigate } from "react-router-dom";
 
 interface IProps {
-  auth: boolean;
-  handleAuthChange: () => void;
+  auth: string;
+  handleAuthChange: (username: string) => void;
 }
 
 const Auth = ({ auth, handleAuthChange }: IProps) => {
@@ -20,14 +20,13 @@ const Auth = ({ auth, handleAuthChange }: IProps) => {
       if (auth) return navigate("/todo/main");
 
       const res = await fetch("http://cynicade.xyz/todo/api/login", {
-        // const res = await fetch("http://localhost:3001/todo/api/login", {
         credentials: "include",
       });
 
       const data = await res.json();
 
       if (data.message === "logged in successfully") {
-        handleAuthChange();
+        handleAuthChange(data.username);
         return navigate("/todo/main");
       }
     })();

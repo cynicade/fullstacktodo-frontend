@@ -17,7 +17,7 @@
   p {
     padding: 0;
     text-align: center;
-    margin: 0 auto;
+    margin: 0;
   }
 
   form {
@@ -27,8 +27,7 @@
 
     input {
       padding: 0;
-      text-align: center;
-      margin: 0 auto;
+      margin: 0;
       background: inherit;
       border: 0;
       color: inherit;
@@ -38,15 +37,6 @@
       &:focus {
         outline: 0;
       }
-    }
-  }
-
-  button {
-    background: inherit;
-    border: 0;
-
-    &:hover {
-      cursor: pointer;
     }
   }
 
@@ -63,6 +53,26 @@
     &:hover {
       opacity: 1;
       background: $dark-gray;
+    }
+  }
+
+  &--buttons {
+    // slight hack just to make the edit button while editing an item look right
+    margin-left: auto;
+    background: inherit;
+    border: 0;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    button {
+      background: inherit;
+      border: 0;
+
+      &:hover {
+        cursor: pointer;
+      }
     }
   }
 }

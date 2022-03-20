@@ -11,7 +11,7 @@ interface IFormInputs {
 
 interface IProps {
   handleSigninClick: () => void;
-  handleAuthChange: () => void;
+  handleAuthChange: (username: string) => void;
 }
 
 const Register = ({
@@ -30,7 +30,6 @@ const Register = ({
 
   const onSubmit: SubmitHandler<IFormInputs> = async user => {
     const res = await fetch("http://cynicade.xyz/todo/api/register", {
-      // const res = await fetch("http://localhost:3001/todo/api/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -46,7 +45,7 @@ const Register = ({
     const data = await res.json();
 
     if (data.message === "user registered successfully") {
-      handleAuthChange();
+      handleAuthChange(data.username);
       return navigate("/todo/main");
     }
   };

@@ -14,10 +14,20 @@ interface IProps {
   id: number;
   handleDelete: (id: number) => void;
   handleUpdate: (id: number, body: string, complete: boolean) => void;
+  handleCreate: (body: string) => void;
+  create: boolean;
 }
 
-const Todo = ({ body, complete, id, handleDelete, handleUpdate }: IProps) => {
-  const [editing, setEditing] = useState(false);
+const Todo = ({
+  body,
+  complete,
+  id,
+  handleDelete,
+  handleUpdate,
+  handleCreate,
+  create,
+}: IProps) => {
+  const [editing, setEditing] = useState(create);
   const [newBody, setNewBody] = useState(body);
 
   const handleDeleteClick = () => {
@@ -35,6 +45,11 @@ const Todo = ({ body, complete, id, handleDelete, handleUpdate }: IProps) => {
   const handleEditSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
     setEditing(false);
+    if (create) {
+      if (newBody === "") handleDelete(-1);
+      handleCreate(newBody);
+      return;
+    }
     if (newBody === "") handleDelete(id);
     else if (newBody === body) return;
     else handleUpdate(id, newBody, complete);
@@ -47,7 +62,7 @@ const Todo = ({ body, complete, id, handleDelete, handleUpdate }: IProps) => {
   const editingForm = (
     <form onSubmit={handleEditSubmit}>
       <input value={newBody} onChange={handleBodyChange} autoFocus></input>
-      <button type="submit">
+      <button className="Todo--buttons" type="submit">
         <FontAwesomeIcon icon={faPencil} />
       </button>
     </form>
@@ -60,21 +75,23 @@ const Todo = ({ body, complete, id, handleDelete, handleUpdate }: IProps) => {
       ) : (
         <>
           <p>{body}</p>
-          {!complete && (
-            <button onClick={handleEditClick}>
-              <FontAwesomeIcon icon={faPencil} />
-            </button>
-          )}
-          <button onClick={handleCompleteClick}>
-            {complete ? (
-              <FontAwesomeIcon icon={faUndo} />
-            ) : (
-              <FontAwesomeIcon icon={faCheck} />
+          <div className="Todo--buttons">
+            {!complete && (
+              <button onClick={handleEditClick}>
+                <FontAwesomeIcon icon={faPencil} />
+              </button>
             )}
-          </button>
-          <button onClick={handleDeleteClick}>
-            <FontAwesomeIcon icon={faTrash} />
-          </button>
+            <button onClick={handleCompleteClick}>
+              {complete ? (
+                <FontAwesomeIcon icon={faUndo} />
+              ) : (
+                <FontAwesomeIcon icon={faCheck} />
+              )}
+            </button>
+            <button onClick={handleDeleteClick}>
+              <FontAwesomeIcon icon={faTrash} />
+            </button>
+          </div>
         </>
       )}
     </div>

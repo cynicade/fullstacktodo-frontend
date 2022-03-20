@@ -5,10 +5,10 @@ import Auth from "./components/Auth";
 import Main from "./components/Main";
 
 const App = () => {
-  const [auth, setAuth] = useState(false);
+  const [auth, setAuth] = useState<string>("");
 
-  const handleAuthChange = () => {
-    setAuth(!auth);
+  const handleAuthChange = (username: string = "") => {
+    setAuth(username);
   };
 
   return (
