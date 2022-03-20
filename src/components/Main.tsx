@@ -57,7 +57,7 @@ const Main = ({ auth, handleAuthChange }: IProps): JSX.Element => {
   };
 
   useEffect(() => {
-    if (!auth) return navigate("/todo");
+    if (auth === "") return navigate("/todo");
     getTodos();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auth, navigate]);

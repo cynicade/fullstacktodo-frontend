@@ -17,7 +17,7 @@ const Auth = ({ auth, handleAuthChange }: IProps) => {
 
   useEffect(() => {
     (async () => {
-      if (auth) return navigate("/todo/main");
+      if (auth !== "") return navigate("/todo/main");
 
       const res = await fetch("http://cynicade.xyz/todo/api/login", {
         credentials: "include",
