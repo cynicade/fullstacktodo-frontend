@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./components/styles/App.scss";
 import Auth from "./components/Auth";
 import Main from "./components/Main";
 
 const App = () => {
-  const [auth, setAuth] = useState<string>("");
+  const [auth, setAuth] = useState<boolean>(false);
 
-  const handleAuthChange = (username: string = "") => {
-    setAuth(username);
+  const handleAuthChange = () => {
+    setAuth(!auth);
   };
 
   return (

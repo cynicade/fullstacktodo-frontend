@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Register from "./Register";
 import Login from "./Login";
@@ -7,8 +7,8 @@ import "./styles/Auth.scss";
 import { useNavigate } from "react-router-dom";
 
 interface IProps {
-  auth: string;
-  handleAuthChange: (username: string) => void;
+  auth: boolean;
+  handleAuthChange: () => void;
 }
 
 const Auth = ({ auth, handleAuthChange }: IProps) => {
@@ -17,16 +17,17 @@ const Auth = ({ auth, handleAuthChange }: IProps) => {
 
   useEffect(() => {
     (async () => {
-      if (auth !== "") return navigate("/todo/main");
+      if (auth) return navigate("/todo/main");
 
-      const res = await fetch("http://cynicade.xyz/todo/api/login", {
+      // const res = await fetch("https://cynicade.xyz/todo/api/login", {
+        const res = await fetch("http://localhost:3001/todo/api/login", {
         credentials: "include",
       });
 
       const data = await res.json();
 
       if (data.message === "logged in successfully") {
-        handleAuthChange(data.username);
+        handleAuthChange();
         return navigate("/todo/main");
       }
     })();

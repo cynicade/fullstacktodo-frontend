@@ -7,8 +7,8 @@ import "./styles/Main.scss";
 import { motion } from "framer-motion";
 
 interface IProps {
-  auth: string;
-  handleAuthChange: (username?: string) => void;
+  auth: boolean;
+  handleAuthChange: () => void;
 }
 
 type TodoT = {
@@ -48,7 +48,8 @@ const Main = ({ auth, handleAuthChange }: IProps): JSX.Element => {
   };
 
   const getTodos = async () => {
-    const res = await fetch("http://cynicade.xyz/todo/api/todos", {
+    // const res = await fetch("https://cynicade.xyz/todo/api/todos", {
+      const res = await fetch("http://localhost:3001/todo/api/todos", {
       credentials: "include",
     });
 
@@ -57,7 +58,7 @@ const Main = ({ auth, handleAuthChange }: IProps): JSX.Element => {
   };
 
   useEffect(() => {
-    if (auth === "") return navigate("/todo");
+    if (!auth) return navigate("/todo");
     getTodos();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auth, navigate]);
@@ -79,7 +80,8 @@ const Main = ({ auth, handleAuthChange }: IProps): JSX.Element => {
   };
 
   const handleCreate = async (body: string) => {
-    const res = await fetch("http://cynicade.xyz/todo/api/new", {
+    // const res = await fetch("https://cynicade.xyz/todo/api/new", {
+      const res = await fetch("http://localhost:3001/todo/api/new", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -101,22 +103,20 @@ const Main = ({ auth, handleAuthChange }: IProps): JSX.Element => {
     setAddingTodo(false);
   };
 
-  const handleDelete = async (id: number) => {
+  const handleDelete = (id: number) => {
     if (id !== -1) {
-      const res = await fetch(`http://cynicade.xyz/todo/api/todo/${id}`, {
+      // fetch(`https://cynicade.xyz/todo/api/todo/${id}`, {
+        fetch(`http://localhost:3001/todo/api/todo/${id}`, {
         method: "DELETE",
         credentials: "include",
       });
-
-      const data = await res.json();
-      console.log(data);
     }
     setTodos(todos.filter((t: TodoT) => t.id !== id));
-    // getTodos();
   };
 
-  const handleUpdate = async (id: number, body: string, complete: boolean) => {
-    const res = await fetch(`http://cynicade.xyz/todo/api/todo/${id}`, {
+  const handleUpdate = (id: number, body: string, complete: boolean) => {
+    // fetch(`https://cynicade.xyz/todo/api/todo/${id}`, {
+      fetch(`http://localhost:3001/todo/api/todo/${id}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -133,20 +133,14 @@ const Main = ({ auth, handleAuthChange }: IProps): JSX.Element => {
     temp[idx].body = body;
     temp[idx].complete = complete;
     setTodos(sortTodos(temp));
-    console.log(todos[idx]);
-
-    const data = await res.json();
-    console.log(data);
-    // getTodos();
   };
 
-  const handleLogout = async () => {
-    const res = await fetch("http://cynicade.xyz/todo/api/logout", {
+  const handleLogout = () => {
+    // fetch("https://cynicade.xyz/todo/api/logout", {
+      fetch("http://localhost:3001/todo/api/logout", {
       credentials: "include",
     });
 
-    const data = await res.json();
-    console.log(data);
     handleAuthChange();
     return navigate("/todo");
   };
@@ -162,7 +156,7 @@ const Main = ({ auth, handleAuthChange }: IProps): JSX.Element => {
         exit={{ scale: 0 }}
         className="Main"
       >
-        <h1>Hello {auth}! Here is your list:</h1>
+        <h1>Hello! Here is your list:</h1>
         <ul>
           {todos.map(todo => (
             <motion.li
